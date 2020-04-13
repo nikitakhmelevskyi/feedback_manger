@@ -1,0 +1,37 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Ignore idea configuration files
+.idea/*
+
+# Ignore databases from docker
+/.docker/*
+!/.docker/.keep
+
+# Ignore test coverage
+/coverage
+
+# Ignore specs tmp files
+/spec/tmp/*
+
+# Ignore application configuration
+/cache
+/.env
+
+# Ignore os x specific files
+.DS_Store
