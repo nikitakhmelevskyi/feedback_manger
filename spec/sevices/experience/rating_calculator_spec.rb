@@ -17,7 +17,7 @@ RSpec.describe Experience::RatingCalculator do
 
   context 'success' do
     it 'calculates average rating for provided experience' do
-      expect(subject).to eq(2.6)
+      expect(subject).to eq(2.7)
     end
   end
 
