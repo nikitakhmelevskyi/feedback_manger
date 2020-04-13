@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_13_083020) do
+ActiveRecord::Schema.define(version: 2020_04_13_162618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,24 +19,37 @@ ActiveRecord::Schema.define(version: 2020_04_13_083020) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "avg_rating"
   end
 
   create_table "feedback", force: :cascade do |t|
     t.bigint "experience_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating", null: false
     t.index ["experience_id"], name: "index_feedback_on_experience_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "experience_id"
+    t.string "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experience_id"], name: "index_questions_on_experience_id"
   end
 
   create_table "responses", force: :cascade do |t|
     t.bigint "feedback_id"
-    t.string "question", null: false
     t.string "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "question_id"
     t.index ["feedback_id"], name: "index_responses_on_feedback_id"
+    t.index ["question_id"], name: "index_responses_on_question_id"
   end
 
   add_foreign_key "feedback", "experiences"
+  add_foreign_key "questions", "experiences"
   add_foreign_key "responses", "feedback"
+  add_foreign_key "responses", "questions"
 end
