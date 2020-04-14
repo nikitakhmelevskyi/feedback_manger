@@ -7,6 +7,9 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.2'
 gem 'puma', '~> 3.11'
 gem 'pg', '>= 0.18', '< 2.0'
 
+gem 'dry-validation'
+gem 'active_model_serializers'
+
 gem 'sidekiq'
 gem 'sidekiq-unique-jobs'
 
