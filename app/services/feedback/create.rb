@@ -29,21 +29,19 @@ class Feedback::Create
   end
 
   def create_feedback_with_responses
-    Feedback.transaction do
-      feedback = Feedback.create!(
-        experience: experience,
-        rating: params[:rating]
+    feedback = Feedback.create!(
+      experience: experience,
+      rating: params[:rating]
+    )
+
+    params[:responses].each do |response|
+      Response.create(
+        feedback: feedback,
+        question_id: response[:question_id],
+        answer: response[:answer]
       )
-
-      params[:responses].each do |response|
-        Response.create(
-          feedback: feedback,
-          question_id: response[:question_id],
-          answer: response[:answer]
-        )
-      end
-
-      feedback
     end
+
+    feedback
   end
 end
