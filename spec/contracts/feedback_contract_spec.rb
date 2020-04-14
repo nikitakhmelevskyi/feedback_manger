@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FeedbackContract do
-  subject { FeedbackContract.new(options).call(params) }
+  subject { FeedbackContract.new.call(params) }
 
   let(:experience) { create(:experience) }
   let(:question) { create(:question, experience: experience) }
@@ -10,10 +10,9 @@ RSpec.describe FeedbackContract do
   let(:question_answer) { Faker::Lorem.sentence(word_count: 3) }
   let(:rating) { [*1..5].sample }
 
-  let(:options) { { experience: experience } }
-
   let(:params) do
     {
+      experience: experience,
       user_ip: user_ip,
       rating: rating,
       responses: [

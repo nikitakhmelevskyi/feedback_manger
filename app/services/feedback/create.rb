@@ -5,19 +5,19 @@ class Feedback::Create
     new(params).call
   end
 
-  private
-
   def initialize(params)
     @params = params
   end
 
   def call
-    create_feedback_with_responses
+    feedback = create_feedback_with_responses
 
     Experience::RatingRecalculationJob.perform_async(params[:experience].id)
 
     feedback
   end
+
+  private
 
   def create_feedback_with_responses
     Feedback.transaction do
@@ -33,6 +33,8 @@ class Feedback::Create
           answer: response[:answer]
         )
       end
+
+      feedback
     end
   end
 end

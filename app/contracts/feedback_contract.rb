@@ -1,7 +1,6 @@
 class FeedbackContract < Dry::Validation::Contract
-  option :experience
-
   params do
+    required(:experience)
     required(:rating).value(:integer, gteq?: 1, lteq?: 5)
 
     required(:user_ip).value(:string)
@@ -13,6 +12,8 @@ class FeedbackContract < Dry::Validation::Contract
   end
 
   rule(:user_ip) do
+    experience = values[:experience]
+
     if experience.present? && experience.feedback.exists?(user_ip: value)
       key.failure('this user has already left a feedback for this experience')
     end

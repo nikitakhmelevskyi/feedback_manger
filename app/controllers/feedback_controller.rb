@@ -1,24 +1,24 @@
 class FeedbackController < ApplicationController
   def create
-    validation_result = FeedbackContract.new(contract_options).call(prepared_params)
+    validation_result = FeedbackContract.new.call(prepared_params)
 
     if validation_result.success?
-      render json: Feedback::Create.call(validation_result.output),
+      render json: Feedback::Create.call(validation_result.to_h),
              serializer: FeedbackSerializer,
-             adapter: :json
+             adapter: :json,
+             status: :created
     else
-      render_error(validation_result.errors, 422)
+      render_error(validation_result.errors.to_h, 422)
     end
   end
 
   private
 
-  def contract_options
-    { experience: Experience.find(params[:experience_id]) }
-  end
-
   def prepared_params
-    params.merge(user_ip: request.remote_ip)
+    params.to_unsafe_hash.merge(
+      experience: Experience.find(params[:experience_id]),
+      user_ip: request.remote_ip
+    )
   end
 end
 
