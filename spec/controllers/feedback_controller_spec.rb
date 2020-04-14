@@ -44,7 +44,7 @@ RSpec.describe FeedbackController, type: :controller do
           experience: {
             id: experience.id,
             name: experience.name,
-            avg_rating: experience.avg_rating
+            avg_rating: experience.reload.avg_rating
           },
           responses: [
             {

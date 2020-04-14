@@ -10,19 +10,28 @@ class Feedback::Create
   end
 
   def call
-    feedback = create_feedback_with_responses
+    # lock experience record
+    experience.with_lock do
+      # this block is called within a transaction
+      feedback = create_feedback_with_responses
 
-    Experience::RatingRecalculationJob.perform_async(params[:experience].id)
+      # releases the lock by calling update!
+      Experience::RatingUpdater.call(experience)
 
-    feedback
+      feedback
+    end
   end
 
   private
 
+  def experience
+    params[:experience]
+  end
+
   def create_feedback_with_responses
     Feedback.transaction do
       feedback = Feedback.create!(
-        experience: params[:experience],
+        experience: experience,
         rating: params[:rating]
       )
 
